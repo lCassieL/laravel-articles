@@ -14,3 +14,10 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/admin', function () {
+    $article = new Article();
+    return view('articles',[
+        'articles'=>$article->all()
+            ]);
+});
