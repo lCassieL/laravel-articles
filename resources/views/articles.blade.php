@@ -9,61 +9,92 @@
     <!-- Отображение ошибок проверки ввода -->
     @include('common.errors')
 
-    <!-- Форма новой задачи -->
-    <form action="{{ url('admin') }}" method="POST" class="form-horizontal">
+    <!-- Форма новой статьи -->
+    <form action="{{ url('admin/article') }}" method="POST" class="form-horizontal">
       {{ csrf_field() }}
 
-      <!-- Имя задачи -->
+      <!-- Имя статьи -->
       <div class="form-group">
-        <label for="task" class="col-sm-3 control-label">Задача</label>
+        <label for="" class="col-sm-3 control-label">Статья</label>
 
         <div class="col-sm-6">
-          <input type="text" name="name" id="task-name" class="form-control">
+          <input type="text" name="name" id="article-name" class="form-control">
         </div>
       </div>
 
-      <!-- Кнопка добавления задачи -->
+      <div class="form-group">
+        <label for="" class="col-sm-3 control-label">Короткий текст</label>
+
+        <div class="col-sm-6">
+          <textarea name="shortText" id="article-short-text" class="form-control"></textarea>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="" class="col-sm-3 control-label">Длинный текст</label>
+
+        <div class="col-sm-6">
+        <textarea name="longText" id="article-long-text" class="form-control"></textarea>
+        </div>
+      </div>
+
+      <!-- Кнопка добавления статьи -->
       <div class="form-group">
         <div class="col-sm-offset-3 col-sm-6">
           <button type="submit" class="btn btn-default">
-            <i class="fa fa-plus"></i> Добавить задачу
+            <i class="fa fa-plus"></i> Добавить статью
           </button>
         </div>
       </div>
     </form>
   </div>
 <!-- Текущие задачи -->
-  @if (count($tasks) > 0)
+  @if (count($articles) > 0)
     <div class="panel panel-default">
       <div class="panel-heading">
-        Текущая задача
+        Текущая статья
       </div>
 
       <div class="panel-body">
-        <table class="table table-striped task-table">
+        <table class="table table-striped article-table">
 
           <!-- Заголовок таблицы -->
           <thead>
-            <th>Task</th>
+            <th>Article</th>
+            <th>Short text</th>
+            <th>Long text</th>
+            <th>Date of creating</th>
             <th>action</th>
           </thead>
 
           <!-- Тело таблицы -->
           <tbody>
-            @foreach ($tasks as $task)
+            @foreach ($articles as $article)
               <tr>
                 <!-- Имя задачи -->
                 <td class="table-text">
-                  <div>{{ $task->name }}</div>
+                  <div>{{ $article->name }}</div>
+                </td>
+
+                <td class="table-text">
+                  <div>{{ $article->shortText }}</div>
+                </td>
+
+                <td class="table-text">
+                  <div>{{ $article->longText }}</div>
+                </td>
+
+                <td class="table-text">
+                  <div>{{ gmdate("M d Y H:i:s",$article->dateCreating) }}</div>
                 </td>
 
                 <td>
-                    <form action="{{url('task/'.$task->id)}}" method="post">
-<!--                        <input type="hidden" name="id" value="{{$task->id}}"/>-->
+                    <form action="{{url('admin/article/'.$article->id)}}" method="post">
+<!--                        <input type="hidden" name="id" value="{{$article->id}}"/>-->
                         {{csrf_field()}}
                         {{method_field('DELETE')}}
                         <button type="submit" class="btn btn-default">
-                            <i class="fa fa-trash"></i> Удалить задачу
+                            <i class="fa fa-trash"></i> Удалить статью
                         </button>
                     </form>
                 </td>
