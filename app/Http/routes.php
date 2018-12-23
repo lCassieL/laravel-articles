@@ -11,9 +11,20 @@ use App\Article;
 | and give it the controller to call when that URI is requested.
 |
 */
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\DB;
 
 Route::get('/', function () {
-    return view('welcome');
+    $article = new Article();
+    return view('main',[
+        'articles'=>$article->all()
+            ]);
+});
+
+Route::get('/item/{id}', function(Request $request) {
+    $id  = $request->id;
+    $article_item = DB::table('articles')->where('id', $id)->first();
+    return view('article_item',['article_item'=>$article_item]);
 });
 
 Route::get('/admin', function () {
@@ -21,7 +32,6 @@ Route::get('/admin', function () {
     return view('articles',[
         'articles'=>$article->all()
             ]);
-    // return view('welcome');
 });
 
 Route::post('/admin/article', function(Request $request){
