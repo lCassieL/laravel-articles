@@ -14,39 +14,31 @@
   @if (count($articles) > 0)
     <div class="panel panel-default">
       <div class="panel-heading">
-        Текущая статьи
       </div>
 
-      <div class="panel-body">
-        <table class="table table-striped article-table">
+      <div class="panel-body text-center">
+        
 
-          <!-- Заголовок таблицы -->
-          <thead>
-            <th>Article</th>
-            <th>Short text</th>
-            <th>Date of creating</th>
-          </thead>
+          
+        
 
-          <!-- Тело таблицы -->
-          <tbody>
+       
             @foreach ($articles as $article)
-              <tr>
-                <!-- Имя задачи -->
-                <td class="table-text">
-                  <div><a href="{{Request::url().'/item/'.$article->id}}">{{ $article->name }}</a></div>
-                </td>
+              
+                
+            <h1><a href="{{Request::url().'/item/'.$article->id}}">{{ $article->name }}</a></h1>
+            
 
-                <td class="table-text">
-                  <div>{{ $article->shortText }}</div>
-                </td>
+               
+                  <div class="font-italic text-left">{{ $article->shortText }}</div>
+              
 
-                <td class="table-text">
-                  <div>{{ gmdate("M d Y H:i:s",$article->dateCreating) }}</div>
-                </td>
-              </tr>
+               
+                  <div class="text-left">{{ gmdate("M d Y H:i:s",$article->dateCreating) }}</div>
+               
+             
             @endforeach
-          </tbody>
-        </table>
+         
       </div>
     </div>
    @endif

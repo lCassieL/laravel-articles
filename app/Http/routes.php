@@ -14,6 +14,10 @@ use App\Article;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 
+Route::get('/gallery', function () {
+    return view('gallery');
+});
+
 Route::get('/', function () {
     $article = new Article();
     return view('main',[
@@ -56,7 +60,7 @@ Route::post('/admin/update/do/{id}', function(Request $request){
     $new_article->allText=$request->allText;
     date_default_timezone_set("UTC");
     $new_article->dateCreating=time()+2*3600;
-    DB::update('update articles set name = ?, shortText = ?, allText = ?, dateCreating = ? where id = ?', ['"'.$new_article->name.'"', '"'.$new_article->shortText.'"', '"'.$new_article->allText.'"', $new_article->dateCreating, $id]);
+    DB::update('update articles set name = ?, shortText = ?, allText = ?, dateCreating = ? where id = ?', [''.$new_article->name.'', ''.$new_article->shortText.'', ''.$new_article->allText.'', $new_article->dateCreating, $id]);
     return redirect('/admin');  
 });
 

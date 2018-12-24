@@ -102,7 +102,7 @@
 <!--                        <input type="hidden" name="id" value="{{$article->id}}"/>-->
                         {{csrf_field()}}
                         <button type="submit" class="btn btn-default">
-                             Изменить статью
+                             <i class="fa fa-pencil"></i> Изменить статью
                         </button>
                     </form>
                 </td>
