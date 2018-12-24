@@ -21,10 +21,43 @@ Route::get('/', function () {
             ]);
 });
 
+Route::get('/item/back', function () {
+    return redirect('/');
+});
+
 Route::get('/item/{id}', function(Request $request) {
     $id  = $request->id;
     $article_item = DB::table('articles')->where('id', $id)->first();
     return view('article_item',['article_item'=>$article_item]);
+});
+
+Route::post('/admin/update/{id}', function(Request $request) {
+    $id  = $request->id;
+    $article_item = DB::table('articles')->where('id', $id)->first();
+    return view('artup',['article_item'=>$article_item]);
+});
+
+Route::post('/admin/update/do/{id}', function(Request $request){
+    $id  = $request->id;
+    $validator = Validator::make($request->all(), [
+        'name' => 'required|max:255',
+        'shortText' => 'required',
+        'allText' => 'required',
+    ]);
+
+    if($validator->fails()){
+        return redirect('/admin')
+        ->withInput()
+        ->withErrors($validator);
+    }
+    $new_article = new Article();
+    $new_article->name=$request->name;
+    $new_article->shortText=$request->shortText;
+    $new_article->allText=$request->allText;
+    date_default_timezone_set("UTC");
+    $new_article->dateCreating=time()+2*3600;
+    DB::update('update articles set name = ?, shortText = ?, allText = ?, dateCreating = ? where id = ?', ['"'.$new_article->name.'"', '"'.$new_article->shortText.'"', '"'.$new_article->allText.'"', $new_article->dateCreating, $id]);
+    return redirect('/admin');  
 });
 
 Route::get('/admin', function () {
@@ -38,7 +71,7 @@ Route::post('/admin/article', function(Request $request){
     $validator = Validator::make($request->all(), [
         'name' => 'required|max:255',
         'shortText' => 'required',
-        'longText' => 'required',
+        'allText' => 'required',
     ]);
 
     if($validator->fails()){
@@ -49,7 +82,7 @@ Route::post('/admin/article', function(Request $request){
     $new_article = new Article();
     $new_article->name=$request->name;
     $new_article->shortText=$request->shortText;
-    $new_article->longText=$request->longText;
+    $new_article->allText=$request->allText;
     date_default_timezone_set("UTC");
     $new_article->dateCreating=time()+2*3600;
     $new_article->save();

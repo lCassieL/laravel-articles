@@ -34,7 +34,7 @@
         <label for="" class="col-sm-3 control-label">Длинный текст</label>
 
         <div class="col-sm-6">
-        <textarea name="longText" id="article-long-text" class="form-control"></textarea>
+        <textarea name="allText" id="article-long-text" class="form-control"></textarea>
         </div>
       </div>
 
@@ -81,7 +81,7 @@
                 </td>
 
                 <td class="table-text">
-                  <div>{{ $article->longText }}</div>
+                  <div>{{ $article->allText }}</div>
                 </td>
 
                 <td class="table-text">
@@ -95,6 +95,14 @@
                         {{method_field('DELETE')}}
                         <button type="submit" class="btn btn-default">
                             <i class="fa fa-trash"></i> Удалить статью
+                        </button>
+                    </form>
+
+                    <form action="{{url('admin/update/'.$article->id)}}" method="post">
+<!--                        <input type="hidden" name="id" value="{{$article->id}}"/>-->
+                        {{csrf_field()}}
+                        <button type="submit" class="btn btn-default">
+                             Изменить статью
                         </button>
                     </form>
                 </td>

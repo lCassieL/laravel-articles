@@ -26,8 +26,9 @@
           <thead>
             <th>Article</th>
             <th>Short text</th>
-            <th>Long text</th>
+            <th>All text</th>
             <th>Date of creating</th>
+            <th>Action</th>
           </thead>
 
           <!-- Тело таблицы -->
@@ -43,11 +44,18 @@
                 </td>
 
                 <td class="table-text">
-                  <div>{{ $article_item->longText }}</div>
+                  <div>{{ $article_item->allText }}</div>
                 </td>
 
                 <td class="table-text">
                   <div>{{ gmdate("M d Y H:i:s",$article_item->dateCreating) }}</div>
+                </td>
+
+                <td class="table-text">
+                <a href="{{URL::to('/').'/item/back'}}">
+                    <button type="submit" class="btn btn-default">
+                            <i class=""></i> К статьям
+                    </button></a>
                 </td>
               </tr>
           </tbody>
