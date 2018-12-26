@@ -10,7 +10,7 @@
     @include('common.errors')
 
     <!-- Форма новой статьи -->
-    <form action="{{ url('/gallery/do') }}" method="POST" class="form-horizontal">
+    <form action="{{ url('/gallery/do') }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
       {{ csrf_field() }}
 
       <!-- Имя статьи -->
@@ -18,13 +18,9 @@
         <label for="" class="col-sm-3 control-label">Галлерея</label>
 
         <div class="col-sm-6">
-          <input type="file" name="picture" class="form-control">
+          <input type="file" name="image" class="form-control" required>
         </div>
       </div>
-
-      
-
-     
 
       <!-- Кнопка добавления статьи -->
       <div class="form-group">
@@ -35,5 +31,13 @@
         </div>
       </div>
     </form>
+  </div>
+
+  <div>
+  @foreach ($images as $key=>$image)
+      @if ($key > 1)
+          <img src="{{'../images/'.$image}}" width="400" height="200">
+      @endif
+  @endforeach
   </div>
 @endsection

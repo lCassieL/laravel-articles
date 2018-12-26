@@ -13,9 +13,30 @@ use App\Article;
 */
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 Route::get('/gallery', function () {
-    return view('gallery');
+    // $files = Storage::disk('local')->files(base_path().'/images');
+    $images = scandir(base_path().'/public/images');
+    // var_dump($images);
+    // exit();
+    return view('gallery',['images'=>$images]);
+});
+
+Route::post('/gallery/do', function (Request $request) {
+    $file = $request->file('image');
+    // var_dump($file->getClientOriginalName();
+    // var_dump($file->getClientOriginalExtension());
+    // var_dump($file->getSize());
+    // exit();
+    // var_dump(base_path().'/images');
+    // exit();
+    if($file!=null){
+        if($file->getClientOriginalExtension() == 'jpg'||$file->getClientOriginalExtension() == 'png'||$file->getClientOriginalExtension() == 'jpeg'){
+            $file->move(base_path().'/public/images',$file->getClientOriginalName());
+        }
+    }
+    return redirect('/gallery');
 });
 
 Route::get('/', function () {
