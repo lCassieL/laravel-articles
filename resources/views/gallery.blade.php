@@ -34,10 +34,12 @@
   </div>
 
   <div>
-  @foreach ($images as $key=>$image)
-      @if ($key > 1)
-          <img src="{{'../images/'.$image}}" width="400" height="200">
-      @endif
+  @foreach ($images as $image)
+
+      <img src="{{asset('storage/images/'.$image->name)}}" width="400" height="200">
+
+
   @endforeach
+<!--  <img src="{{asset('storage/images/picture3.jpg')}}" width="400" height="200">-->
   </div>
 @endsection

@@ -1,6 +1,7 @@
 <?php
 use Illuminate\Http\Request;
 use App\Article;
+use App\Photo;
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -16,24 +17,27 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 Route::get('/gallery', function () {
-    // $files = Storage::disk('local')->files(base_path().'/images');
-    $images = scandir(base_path().'/public/images');
-    // var_dump($images);
-    // exit();
-    return view('gallery',['images'=>$images]);
+    $images = new Photo();
+//    var_dump($images->all());
+//    exit();
+    return view('gallery',[
+        'images'=>$images->all()
+            ]);
+//    $images = Storage::files(base_path().'/public/images');
+//    $images = scandir(base_path().'/public/images');
+//    return view('gallery',['images'=>$images]);
 });
 
 Route::post('/gallery/do', function (Request $request) {
     $file = $request->file('image');
-    // var_dump($file->getClientOriginalName();
-    // var_dump($file->getClientOriginalExtension());
-    // var_dump($file->getSize());
-    // exit();
-    // var_dump(base_path().'/images');
-    // exit();
     if($file!=null){
         if($file->getClientOriginalExtension() == 'jpg'||$file->getClientOriginalExtension() == 'png'||$file->getClientOriginalExtension() == 'jpeg'){
-            $file->move(base_path().'/public/images',$file->getClientOriginalName());
+            //$file->move(base_path().'/public/images',$file->getClientOriginalName());
+            Storage::put('public/images/'.$file->getClientOriginalName(),file_get_contents($request->file('image')->getRealPath()));
+            //save in db path
+            $new_photo = new Photo();
+    $new_photo->name=$file->getClientOriginalName();
+    $new_photo->save();
         }
     }
     return redirect('/gallery');
